@@ -1,5 +1,6 @@
 package com.library.demo.controller;
 
+import com.library.demo.dto.BooksDTO;
 import com.library.demo.entity.Books;
 import com.library.demo.entity.IssuedBook;
 import com.library.demo.entity.Users;
@@ -16,8 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Controller
@@ -36,17 +36,18 @@ public class BookController {
     @Autowired
     private RoleService roleService;
 
+    private static final String BOOK_PATH = "api/books";
+
+    private static final String ADD_BOOK_PATH = "add-book";
+
+    private static final String REDIRECT = "redirect:/";
+
     @GetMapping("/books")
     public String showBooks(Model theModel){
-        List<Books> booksList = new ArrayList<>();
-
-        booksList = bookService.getBooks();
-
+        List<Books> booksList = bookService.getBooks();
         theModel.addAttribute("books",booksList);
-
         return "list-books";
     }
-
     @GetMapping("/borrow")
     public String borrowBook(@RequestParam("bookId") int bookId, @RequestParam("username") String username, RedirectAttributes redirectAttributes){
         Books book = bookService.getBookById(bookId);
@@ -55,23 +56,26 @@ public class BookController {
         for(IssuedBook tempBook : issuedBookList){
             if(tempBook.getBook().getBookId() == book.getBookId()){
                 redirectAttributes.addFlashAttribute("error","You have already borrowed " + book.getBookName());
-                return "redirect:/api/books";
+                return REDIRECT + BOOK_PATH;
             }
         }
-        LocalDate issueDate = LocalDate.now();
-        LocalDate returnDate = issueDate.plusDays(10);
-        Date curr = Date.valueOf(issueDate);
-        Date later = Date.valueOf(returnDate);
+        long millis = System.currentTimeMillis();
+        Date curr = new Date(millis);
+        Calendar c = Calendar.getInstance();
+        c.setTime(curr);
+        c.add(Calendar.DATE, 10);
+        Date later =  new Date(c.getTimeInMillis());
         IssuedBook issuedBook = new IssuedBook(curr,later,book,user);
         if(book.getQuantity() == 0){
             redirectAttributes.addFlashAttribute("error",book.getBookName()+ " is not available");
-            return "redirect:/api/books";
+            return REDIRECT + BOOK_PATH;
         }
         book.setQuantity(book.getQuantity() - 1);
-        bookService.saveBook(book);
+        BooksDTO bookDTO = bookService.getBookDTO(book);
+        bookService.saveBook(bookDTO);
         issuedBookService.saveIssuedBook(issuedBook);
         redirectAttributes.addFlashAttribute("success",book.getBookName() + " is added to My Books");
-        return "redirect:/api/books";
+        return REDIRECT + BOOK_PATH;
     }
 
     @GetMapping("/borrowedBooks")
@@ -93,38 +97,38 @@ public class BookController {
     public String returnBook(@RequestParam("issueId") int issueId,@RequestParam("bookId") int bookId){
         Books book = bookService.getBookById(bookId);
         book.setQuantity(book.getQuantity() + 1);
-        bookService.saveBook(book);
+        BooksDTO bookDTO = bookService.getBookDTO(book);
+        bookService.saveBook(bookDTO);
         issuedBookService.deleteIssuedBook(issueId);
-        return "redirect:/api/books";
+        return REDIRECT + BOOK_PATH;
     }
 
     @GetMapping("/addBook")
     public String showFormForAdd(Model theModel){
         Books book = new Books();
         theModel.addAttribute("book",book);
-        return "add-book";
+        return ADD_BOOK_PATH;
     }
 
     @GetMapping("/updateBook")
     public String showFormForUpdate(@RequestParam("bookId") int id,Model theModel){
         Books theBook = bookService.getBookById(id);
         theModel.addAttribute("book",theBook);
-        return "add-book";
+        return ADD_BOOK_PATH;
     }
 
     @GetMapping("/delete")
     public String delete(@RequestParam("bookId") int id){
         bookService.deleteBook(id);
-        return "redirect:/api/books";
+        return REDIRECT + BOOK_PATH;
     }
 
     @PostMapping("/save")
-    public String save(@Valid @ModelAttribute("book") Books theBook, BindingResult bindingResult){
+    public String save(@Valid @ModelAttribute("book") BooksDTO theBook, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return "add-book";
+            return ADD_BOOK_PATH;
         }
         bookService.saveBook(theBook);
-        return "redirect:/api/books";
+        return REDIRECT + BOOK_PATH;
     }
-
 }

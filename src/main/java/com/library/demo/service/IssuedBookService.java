@@ -4,7 +4,6 @@ import com.library.demo.entity.IssuedBook;
 import com.library.demo.entity.Users;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IssuedBookService {
 
@@ -17,4 +16,6 @@ public interface IssuedBookService {
     public IssuedBook saveIssuedBook(IssuedBook issuedBook);
 
     public void deleteIssuedBook(int id);
+
+    public void deleteBooksOfUser(Users user);
 }

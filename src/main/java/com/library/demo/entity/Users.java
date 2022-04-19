@@ -36,7 +36,6 @@ public class Users {
     private String password;
 
     @Column(name="phone")
-    @NotNull(message="is required")
     @Size(min=10,max=10,message="length should be exact 10")
     private String phone;
 
@@ -76,11 +75,11 @@ public class Users {
     }
 
     public String getUserRoles(){
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for(Roles rol : roles){
-            result = result + " " + rol.getRole();
+            result.append(rol.getRole());
         }
-        return result;
+        return result.toString();
     }
 
 }

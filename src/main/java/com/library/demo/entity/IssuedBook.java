@@ -33,7 +33,6 @@ public class IssuedBook {
     @JoinColumn(name="user_id")
     private Users user;
 
-
     public IssuedBook(Date issueDate,Date returnDate,Books book,Users user){
         this.issueDate = issueDate;
         this.returnDate = returnDate;
