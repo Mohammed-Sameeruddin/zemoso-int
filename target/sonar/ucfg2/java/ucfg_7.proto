@@ -1,0 +1,24 @@
+
+gcom.library.demo.service.IssuedBookImpl#getBooksByUser(Lcom/library/demo/entity/Users;)Ljava/util/List;
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java (*"1*Í
+1
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java (#‰
+†
+
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java (#6
+%00com.library.demo.repository.IssuedBookRepository"__id*E*C)
+'com.library.demo.service.IssuedBookImpl"
+issuedBookRepositoryž›
+
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java (7
+%1java.util.List"ocom.library.demo.repository.IssuedBookRepository#getBookByUser(Lcom/library/demo/entity/Users;)Ljava/util/List;*8
+6
+%00com.library.demo.repository.IssuedBookRepository*'
+%
+usercom.library.demo.entity.Users2.getBookByUser(Lcom/library/demo/entity/Users;)"™
+
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java (8
+
+%1java.util.List:%
+usercom.library.demo.entity.UsersB+)
+'com.library.demo.service.IssuedBookImpl

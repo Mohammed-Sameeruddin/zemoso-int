@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Books.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.library.demo.entity</a> &gt; <span class="el_source">Books.java</span></div><h1>Books.java</h1><pre class="source lang-java linenums">package com.library.demo.entity;
+
+import lombok.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
+
+@Entity
+@Table(name=&quot;books&quot;)
+<span class="nc" id="L13">@AllArgsConstructor</span>
+<span class="fc" id="L14">@NoArgsConstructor</span>
+@Getter
+<span class="pc" id="L16">@Setter</span>
+<span class="nc" id="L17">@Builder</span>
+public class Books {
+
+    @Id
+    @Column(name=&quot;book_id&quot;)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+<span class="fc" id="L23">    private int bookId;</span>
+
+    @Column(name=&quot;book_name&quot;)
+    @NotNull(message=&quot;is required&quot;)
+    @Size(min=3,message=&quot;length should be atleast 3&quot;)
+<span class="fc" id="L28">    private String bookName;</span>
+
+    @Column(name=&quot;author&quot;)
+    @NotNull(message=&quot;is required&quot;)
+    @Size(min=3,message=&quot;length should be atleast 3&quot;)
+<span class="fc" id="L33">    private String author;</span>
+
+    @Column(name=&quot;publisher&quot;)
+    @NotNull(message = &quot;is required&quot;)
+    @Size(min=3,message=&quot;length should be atleast 3&quot;)
+<span class="fc" id="L38">    private String publisher;</span>
+
+    @Column(name=&quot;quantity&quot;)
+    @Min(0)
+<span class="fc" id="L42">    private int quantity;</span>
+
+    @OneToMany(mappedBy = &quot;book&quot;,cascade = CascadeType.ALL)
+<span class="nc" id="L45">    private List&lt;IssuedBook&gt; issuedBookList;</span>
+
+
+<span class="fc" id="L48">    public Books(String bookName,String author,String publisher,int quantity){</span>
+<span class="fc" id="L49">        this.bookName = bookName;</span>
+<span class="fc" id="L50">        this.author = author;</span>
+<span class="fc" id="L51">        this.publisher = publisher;</span>
+<span class="fc" id="L52">        this.quantity = quantity;</span>
+<span class="fc" id="L53">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.library.demo.security</a> &gt; <span class="el_source">SecurityConfig.java</span></div><h1>SecurityConfig.java</h1><pre class="source lang-java linenums">package com.library.demo.security;
+
+import com.library.demo.service.UserDetailsServiceImpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+@Configuration
+@EnableWebSecurity
+<span class="fc" id="L16">public class SecurityConfig extends WebSecurityConfigurerAdapter {</span>
+    @Bean
+    @Override
+    public UserDetailsService userDetailsService() {
+
+<span class="fc" id="L21">        return new UserDetailsServiceImpl();</span>
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+
+<span class="fc" id="L27">        return new BCryptPasswordEncoder();</span>
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+<span class="fc" id="L32">        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();</span>
+<span class="fc" id="L33">        authProvider.setUserDetailsService(userDetailsService());</span>
+<span class="fc" id="L34">        authProvider.setPasswordEncoder(passwordEncoder());</span>
+
+<span class="fc" id="L36">        return authProvider;</span>
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+<span class="fc" id="L41">        auth.authenticationProvider(authenticationProvider());</span>
+<span class="fc" id="L42">    }</span>
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+<span class="fc" id="L46">        http.authorizeRequests()</span>
+<span class="fc" id="L47">                .antMatchers(&quot;/api/borrow&quot;,&quot;/api/myBooks*&quot;,&quot;/api/return*&quot;).hasRole(&quot;STUDENT&quot;)</span>
+<span class="fc" id="L48">                .antMatchers(&quot;/api/borrowedBooks&quot;,&quot;/api/addBook&quot;,&quot;/api/updateBook&quot;,&quot;api/showUsers&quot;,&quot;api/updateUser&quot;).hasRole(&quot;ADMIN&quot;)</span>
+<span class="fc" id="L49">                .antMatchers(&quot;/&quot;,&quot;/api/books&quot;).hasAnyRole(&quot;STUDENT&quot;,&quot;ADMIN&quot;)</span>
+<span class="fc" id="L50">                .anyRequest().authenticated()</span>
+<span class="fc" id="L51">                .and()</span>
+<span class="fc" id="L52">                .formLogin()</span>
+<span class="fc" id="L53">                .loginProcessingUrl(&quot;/authenticateTheUser&quot;)</span>
+<span class="fc" id="L54">                .permitAll()</span>
+<span class="fc" id="L55">                .and()</span>
+<span class="fc" id="L56">                .logout()  // logout of the session</span>
+<span class="fc" id="L57">                .permitAll()</span>
+<span class="fc" id="L58">                .and()</span>
+<span class="fc" id="L59">                .exceptionHandling()</span>
+<span class="fc" id="L60">                .accessDeniedPage(&quot;/access-denied&quot;);</span>
+
+<span class="fc" id="L62">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

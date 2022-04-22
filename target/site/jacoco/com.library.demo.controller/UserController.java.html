@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.library.demo.controller</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package com.library.demo.controller;
+
+import com.library.demo.dto.UsersDTO;
+import com.library.demo.entity.Roles;
+import com.library.demo.entity.Users;
+import com.library.demo.service.IssuedBookService;
+import com.library.demo.service.RoleService;
+import com.library.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
+import java.util.List;
+
+@Controller
+@RequestMapping(&quot;/api&quot;)
+<span class="fc" id="L22">public class UserController {</span>
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private IssuedBookService issuedBookService;
+
+    @Autowired
+    private RoleService roleService;
+    private static final String ADD_USER_PATH = &quot;add-user&quot;;
+    private static final String SHOW_USERS_PATH = &quot;api/showUsers&quot;;
+    private static final String REDIRECT = &quot;redirect:/&quot;;
+
+    @GetMapping(&quot;/showUsers&quot;)
+    public String showUsers(Model theModel){
+<span class="fc" id="L38">        List&lt;Users&gt; allUsers = userService.getUsers();</span>
+<span class="fc" id="L39">        theModel.addAttribute(&quot;users&quot;,allUsers);</span>
+<span class="fc" id="L40">        return &quot;list-users&quot;;</span>
+    }
+
+    @GetMapping(&quot;/addUser&quot;)
+    public String addUser(Model theModel){
+<span class="fc" id="L45">        Users user = new Users();</span>
+<span class="fc" id="L46">        theModel.addAttribute(&quot;user&quot;,user);</span>
+<span class="fc" id="L47">        List&lt;Roles&gt; roles = roleService.getRoles();</span>
+<span class="fc" id="L48">        theModel.addAttribute(&quot;allRoles&quot;,roles);</span>
+<span class="fc" id="L49">        return ADD_USER_PATH;</span>
+    }
+
+    @PostMapping(&quot;/saveUser&quot;)
+    public String saveUser(@Valid @ModelAttribute(&quot;user&quot;) UsersDTO theUser, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if(bindingResult.hasErrors()){</span>
+<span class="nc" id="L55">            return ADD_USER_PATH;</span>
+        }
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        if(theUser.getUserId() != 0){</span>
+<span class="nc" id="L58">            userService.saveUser(theUser);</span>
+<span class="nc" id="L59">            return REDIRECT + SHOW_USERS_PATH;</span>
+        }
+<span class="fc" id="L61">        List&lt;Users&gt; usersList = userService.getUsers();</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        for(Users user : usersList){</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if(user.getUsername().equals(theUser.getUsername())){</span>
+<span class="nc" id="L64">                redirectAttributes.addFlashAttribute(&quot;error&quot;,theUser.getUsername()+ &quot; is already registred&quot;);</span>
+<span class="nc" id="L65">                return REDIRECT + SHOW_USERS_PATH;</span>
+            }
+<span class="nc" id="L67">        }</span>
+<span class="fc" id="L68">        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();</span>
+<span class="fc" id="L69">        theUser.setPassword(bcrypt.encode(theUser.getPassword()));</span>
+<span class="fc" id="L70">        theUser.setEnabled(true);</span>
+<span class="fc" id="L71">        userService.saveUser(theUser);</span>
+<span class="fc" id="L72">        return REDIRECT + SHOW_USERS_PATH;</span>
+    }
+
+    @GetMapping(&quot;/updateUser&quot;)
+    public String updateUser(@RequestParam(&quot;userId&quot;) int id, Model theModel){
+<span class="fc" id="L77">        Users theUser = userService.getByUserId(id);</span>
+<span class="fc" id="L78">        theModel.addAttribute(&quot;user&quot;,theUser);</span>
+<span class="fc" id="L79">        List&lt;Roles&gt; theRoles = roleService.getRoles();</span>
+<span class="fc" id="L80">        theModel.addAttribute(&quot;allRoles&quot;,theRoles);</span>
+<span class="fc" id="L81">        return ADD_USER_PATH;</span>
+    }
+
+    @GetMapping(&quot;/deleteUser&quot;)
+    public String deleteUser(@RequestParam(&quot;userId&quot;) int id){
+<span class="fc" id="L86">        issuedBookService.deleteBooksOfUser(userService.getByUserId(id));</span>
+<span class="fc" id="L87">        userService.deleteUser(id);</span>
+<span class="fc" id="L88">        return REDIRECT + SHOW_USERS_PATH;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+        .error {
+           color: red;
+        }
+    </style>
+    <title>Save Book</title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3>User Directory</h3>
+    <hr>
+
+    <p class="h4 mb-4">Save User</p>
+
+    <form action="#" th:action="@{/api/saveUser}"
+          th:object="${user}" method="POST">
+
+        <input type="hidden" th:field="*{userId}" />
+
+        <input type="text" th:field="*{username}"
+               class="form-control mb-4 col-4" placeholder="username">
+        <ul>
+            <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error" />
+        </ul>
+
+        <input type="text" th:field="*{password}"
+               class="form-control mb-4 col-4" placeholder="password">
+        <ul>
+            <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error" />
+        </ul>
+
+        <input type="text" th:field="*{phone}"
+               class="form-control mb-4 col-4" placeholder="phone">
+        <ul>
+            <li th:each="err : ${#fields.errors('phone')}" th:text="${err}" class="error" />
+        </ul>
+
+        <input type="text" th:field="*{email}"
+               class="form-control mb-4 col-4" placeholder="email">
+        <ul>
+            <li th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error" />
+        </ul>
+        <p>
+        <label  class="mb-2 col-6">Roles:
+            <input type="checkbox" name="roles"
+                   th:each="role : ${allRoles}"
+                   th:text="${role.role}"
+                   th:value="${role.roleId}"
+                   th:field="*{roles}"
+                   class="ml-4"
+            />
+        </label>
+        </p>
+        <br>
+        <button type="submit" class="btn btn-info col-2">Save</button>
+
+    </form>
+
+    <hr>
+    <a th:href="@{/api/showUsers}">Back to Users List</a>
+
+</div>
+</body>
+
+</html>

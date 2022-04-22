@@ -1,0 +1,43 @@
+
+\com.library.demo.service.IssuedBookImpl#getIssuedBook(I)Lcom/library/demo/entity/IssuedBook;
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java (#"1*¬
+1
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java* (2‰
+†
+
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java6 (J6
+%00com.library.demo.repository.IssuedBookRepository"__id*E*C)
+'com.library.demo.service.IssuedBookImpl"
+issuedBookRepositoryòï
+
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java6 (V(
+%1"com.library.demo.entity.IssuedBook"corg.springframework.data.jpa.repository.JpaRepository#getById(Ljava/lang/Object;)Ljava/lang/Object;*8
+6
+%00com.library.demo.repository.IssuedBookRepository*
+""2getById(Ljava/lang/Object;)¡
+ž
+
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java* (W
+%2java.util.Optional"=java.util.Optional#of(Ljava/lang/Object;)Ljava/util/Optional;*"
+java.util.Optional**
+(
+%1"com.library.demo.entity.IssuedBookÈ
+Å
+
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java (X 
+
+issuedBookjava.util.Optional"__id*
+
+%2java.util.Optional…‚
+
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java ((
+%3"com.library.demo.entity.IssuedBook"*java.util.Optional#get()Ljava/lang/Object;*"
+ 
+
+issuedBookjava.util.Optional2get()"­
+
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java ( *
+(
+%3"com.library.demo.entity.IssuedBook:
+""B+)
+'com.library.demo.service.IssuedBookImpl

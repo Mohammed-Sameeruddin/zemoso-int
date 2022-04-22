@@ -1,0 +1,7 @@
+com/library/demo/controllerTest/UserControllerTests.class
+com/library/demo/serviceTests/UserServiceTests.class
+com/library/demo/controllerTest/BookControllerTests.class
+com/library/demo/controllerTest/DemoControllerTests.class
+com/library/demo/serviceTests/RoleServiceTests.class
+com/library/demo/serviceTests/IssuedBookServiceTests.class
+com/library/demo/serviceTests/BookServiceTests.class

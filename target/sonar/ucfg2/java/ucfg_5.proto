@@ -1,0 +1,21 @@
+
+Hcom.library.demo.service.IssuedBookImpl#getIssuedBooks()Ljava/util/List;
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java (*"1*ß
+1
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java (#‰
+†
+
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java (#6
+%00com.library.demo.repository.IssuedBookRepository"__id*E*C)
+'com.library.demo.service.IssuedBookImpl"
+issuedBookRepository°­
+
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java (-
+%1java.util.List"Oorg.springframework.data.jpa.repository.JpaRepository#findAll()Ljava/util/List;*8
+6
+%00com.library.demo.repository.IssuedBookRepository2	findAll()"™
+
+u/home/mdsame/Documents/zemoso-training/Spring/project/demo/src/main/java/com/library/demo/service/IssuedBookImpl.java (.
+
+%1java.util.ListB+)
+'com.library.demo.service.IssuedBookImpl
